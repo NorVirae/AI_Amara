@@ -58,7 +58,7 @@ def record_audio(file_path, duration=10, sample_rate=48000):
     
     print(f"Audio saved to {file_path}")
     
-def generateVoiceFromText():
+def generateTextFromVoice():
     """
     Records audio, saves it to a file, and transcribes it using OpenAI Whisper.
     """
@@ -109,7 +109,7 @@ def main():
         
         # stop_event = threading.Event()  # Event to stop the loading animation
         # generateVoiceFromText()
-        text_input = generateVoiceFromText()
+        text_input = generateTextFromVoice()
         print("")
         user_input = input("> ")  # Wait for user input
         if user_input.lower() == 'q':  # Check if the input is 'q' (case insensitive)
