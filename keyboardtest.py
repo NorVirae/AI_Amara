@@ -18,15 +18,21 @@ import whisper
 import os
 import wave
 import concurrent.futures
+from langchain_core.prompts import ChatPromptTemplate
 
 load_dotenv()
 # Flag to track key state
 key_pressed = False
 
 # innitialise llm
-llm = ChatOllama(model="llama3.1:8b",)
+llm = ChatOllama(model="llama3.1:8b", )
+prompt = ChatPromptTemplate.from_messages([ 
+    ("system", "You are a world class technical documentation writer."),
+    ("user", "{input}")
+])
+chain = prompt | llm
 
-pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+# pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -79,29 +85,6 @@ def generateVoice(text):
     
     stream(audio)
 
-def generateTextFromVoice():
-    """
-    Records audio, saves it to a file, and transcribes it using OpenAI Whisper.
-    """
-    # Temporary file to store the recorded audio
-    # with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio_file:
-    #     audio_path = temp_audio_file.name
-
-    # Record audio
-    # record_audio(audio_path, duration=10)  # Record 10 seconds of audio
-    
-    # Load Whisper model
-    print("Loading Whisper model...")
-    model = whisper.load_model("turbo")
-    
-    # Transcribe the audio
-    print("Transcribing audio...", args.filename)
-    result = model.transcribe(args.filename, fp16=False)
-    
-    # Print the transcription
-    print("Transcription:")
-    print(result["text"])
-    return result["text"]
 
 
 def runLLM():
