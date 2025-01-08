@@ -28,12 +28,12 @@ class LLMAgent:
         self.name = name
         self.prompt = ChatPromptTemplate.from_messages(
             [ 
-                {
+                (
                     "system",
                     f"Your are an AI Named ${self.name} you answer questions with simple answers and no funny stuff.",
-                },
+                ),
                 MessagesPlaceholder(variable_name="chat_history"),
-                {"human", "{input}"}
+                ("human", "{input}")
             ]
         )
         self.chain = self.prompt | self.llm
@@ -124,7 +124,7 @@ class LLMAgent:
         )
         audio = client.generate(
         text=text,
-        voice="Brian",
+        voice="Charlotte",
         model="eleven_multilingual_v2",
         stream=True
         )
