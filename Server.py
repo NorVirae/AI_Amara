@@ -16,6 +16,12 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
+tokens = {
+    "USDC":"0x5A887dfC5fC4eAd13E6c9691b71cffA41552B51D",
+    "USDT":"0x10BdEaBc356120FaD66d000C777e1877DBA807A2",
+    "WBTC":"0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
+}
+
 def convert_mp3_to_wav(input_file, output_file):
     try:
         # Load the MP3 file
@@ -84,18 +90,24 @@ def load_json_file(file_path):
 def handleCryptoInteraction(action):
     print(action, "Action hasbeen Carried Out")
     USDC = "0x5A887dfC5fC4eAd13E6c9691b71cffA41552B51D"
+    USDT= "0x10BdEaBc356120FaD66d000C777e1877DBA807A2"
     WBTC = "0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
     walletOwner = "0xB4D0402E12AA8CF44Fea9E46d82e979b36a84427"
     crypto_operations = DeFiOperations(os.environ["ASSETCHAIN_RPC"], walletOwner, os.environ["PRIVATE_KEY"])
     
-    if action["type"] == "send" and action["token"] != None and action["token"] != "" and action['recipientAddress'] !=None and  action['recipientAddress'] !="" and action['amount'] != None and  action['amount'] != "":
-        if action["token"] == "USDC":
-            return crypto_operations.transfer_tokens(USDC, action['recipientAddress'], action['amount'])
-        if action["token"] == "WBTC":
-            return crypto_operations.transfer_tokens(WBTC, action['recipientAddress'], action['amount']) 
-        if action["token"] == "USDT":
-            return crypto_operations.transfer_tokens(WBTC, action['recipientAddress'], action['amount']) 
-    # if action["type"] == "swap":
+    match action["type"]:
+        case "send":
+            result = crypto_operations.transfer_tokens(tokens[action["token"]], action['recipientAddress'], action['amount'])
+            return {"transactionHash":result.transactionHash.hex()}
+        case "swap":
+            result = crypto_operations.swap_tokens_uniswap_v3(tokens[action["tokenIn"]],tokens[action["tokenOut"]], action['amount'], 0, action['recipientAddress'])
+            print(result.transactionHash.hex(), "HULA")
+            return {"transactionHash":result.transactionHash.hex()}
+        case "fetch_balance":
+            newBalance = crypto_operations.fetch_balance(tokens[action["token"]], action["balanceAddress"])
+            return {"balance": newBalance, "token": action["token"]}
+        case _:
+            return
     
 
 def audio_to_base64(file_path):
@@ -230,7 +242,7 @@ async def sendChat():
         data_list = prepResponseForClient(parsed_data=parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
         if parsed_data["action"]:
             result  = handleCryptoInteraction(parsed_data["action"])
-            blockchain_response = agent.predict(f"transactionHash:{result.transactionHash.hex()}")
+            blockchain_response = agent.predict(f"{result}")
             block_parsed_data = getJsonData(blockchain_response)
             data_list = prepResponseForClient(parsed_data=block_parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
             print(result)

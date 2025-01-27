@@ -18,7 +18,7 @@ class DeFiOperations:
         self.private_key = private_key
         print(web3_provider, "WEB3")
         # Uniswap V3 Router contract address (AssetChain Testnet)
-        self.uniswap_router = "0x6f9232316901DA45a7087b876118fa6ecb9B841E"
+        self.uniswap_router = "0x365C8Bd36a27128A230B1CE8f7027d7a9e5A8f82"
         
     def transfer_tokens(self, token_address, recipient_address, amount):
         """
@@ -76,7 +76,59 @@ class DeFiOperations:
         except Exception as e:
             raise Exception(f"Transfer failed: {str(e)}")
         
-    def swap_tokens_uniswap_v3(self, token_in_address, token_out_address, amount_in, min_amount_out, deadline=None):
+    def fetch_balance(self, token_address, balance_address):
+        """
+        Fetch the balance of an address for a specific ERC20 token.
+        
+        Args:
+            token_address (str): Address of the ERC20 token contract.
+            balance_address (str): Address of the wallet to check balance.
+            
+        Returns:
+            int: Balance of the address in the token's smallest unit.
+        """
+        try:
+            # Standard ERC20 ABI for balanceOf function
+            token_abi = [
+                {
+                    "constant": True,
+                    "inputs": [
+                        {
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "balanceOf",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": False,
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ]
+
+            # Create contract instance for the token
+            token_contract = self.w3.eth.contract(
+                address=token_address,
+                abi=token_abi
+            )
+
+            # Call balanceOf function
+            balance = token_contract.functions.balanceOf(balance_address).call()
+            print(balance)
+            newBalance = self.w3.from_wei(balance, "ether")
+            
+            return newBalance
+
+        except Exception as e:
+            raise Exception(f"Failed to fetch balance: {str(e)}")
+
+        
+    def swap_tokens_uniswap_v3(self, token_in_address, token_out_address, amount_in, min_amount_out, recipient_wallet_address, deadline=None):
         """
         Perform a swap on Uniswap V3 with enhanced error checking
         """
@@ -148,11 +200,11 @@ class DeFiOperations:
             swap_params = {
                 'tokenIn': token_in_address,
                 'tokenOut': token_out_address,
-                'fee': 3000,  # 0.3% fee tier
-                'recipient': self.wallet_address,
+                'fee': 500,  # 0.3% fee tier
+                'recipient': recipient_wallet_address,
                 'deadline': deadline,
                 'amountIn': amount_in_wei,
-                'amountOutMinimum': self.w3.to_wei(min_amount_out, "ether"),
+                'amountOutMinimum': min_amount_out,
                 'sqrtPriceLimitX96': 0
             }
             
