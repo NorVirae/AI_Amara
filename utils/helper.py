@@ -8,8 +8,34 @@ from app.defiOperations import DeFiOperations
 import math
 
 class Helper:
+    tokens = {
+        "USDC":"0x5A887dfC5fC4eAd13E6c9691b71cffA41552B51D",
+        "USDT":"0x10BdEaBc356120FaD66d000C777e1877DBA807A2",
+        "WBTC":"0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
+    }
+
     def __init__(self):
-        pass
+        """_summary_
+        """
+    
+    def loadCharacter(name):
+        """
+        Load A Json file containin character Info
+        """
+        
+        character_file = f"app/characters/{name}.json"
+        try:
+            with open(character_file, "r") as json_file:
+                # Load the JSON data into a variable
+                data = json.load(json_file)
+                return data
+        except FileNotFoundError:
+            print(f"Error: The file at {character_file} was not found.")
+            return None
+        except json.JSONDecodeError as e:
+            print(f"Error: Failed to decode JSON. {e}")
+            return None
+        
     def convert_mp3_to_wav(self, input_file, output_file):
         try:
             # Load the MP3 file

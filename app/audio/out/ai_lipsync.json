@@ -1,23 +1,26 @@
 {
   "metadata": {
     "soundFile": "C:\\Users\\norbe\\Documents\\AI\\AI Projects\\AlienGirlfriendChatbot\\app\\audio\\out\\ai_voice.wav",
-    "duration": 2.53
+    "duration": 2.76
   },
   "mouthCues": [
-    { "start": 0.00, "end": 0.09, "value": "X" },
-    { "start": 0.09, "end": 0.23, "value": "C" },
-    { "start": 0.23, "end": 0.51, "value": "E" },
-    { "start": 0.51, "end": 0.93, "value": "B" },
-    { "start": 0.93, "end": 1.00, "value": "C" },
-    { "start": 1.00, "end": 1.07, "value": "B" },
-    { "start": 1.07, "end": 1.21, "value": "C" },
-    { "start": 1.21, "end": 1.42, "value": "B" },
-    { "start": 1.42, "end": 1.49, "value": "F" },
-    { "start": 1.49, "end": 1.63, "value": "B" },
-    { "start": 1.63, "end": 1.70, "value": "C" },
-    { "start": 1.70, "end": 1.84, "value": "B" },
-    { "start": 1.84, "end": 1.91, "value": "C" },
-    { "start": 1.91, "end": 2.26, "value": "B" },
-    { "start": 2.26, "end": 2.53, "value": "X" }
+    { "start": 0.00, "end": 0.06, "value": "X" },
+    { "start": 0.06, "end": 0.37, "value": "C" },
+    { "start": 0.37, "end": 0.44, "value": "B" },
+    { "start": 0.44, "end": 0.69, "value": "X" },
+    { "start": 0.69, "end": 0.90, "value": "B" },
+    { "start": 0.90, "end": 1.04, "value": "C" },
+    { "start": 1.04, "end": 1.18, "value": "B" },
+    { "start": 1.18, "end": 1.25, "value": "C" },
+    { "start": 1.25, "end": 1.53, "value": "B" },
+    { "start": 1.53, "end": 1.60, "value": "F" },
+    { "start": 1.60, "end": 1.74, "value": "B" },
+    { "start": 1.74, "end": 1.81, "value": "C" },
+    { "start": 1.81, "end": 1.95, "value": "B" },
+    { "start": 1.95, "end": 2.02, "value": "C" },
+    { "start": 2.02, "end": 2.16, "value": "B" },
+    { "start": 2.16, "end": 2.23, "value": "G" },
+    { "start": 2.23, "end": 2.44, "value": "B" },
+    { "start": 2.44, "end": 2.76, "value": "X" }
   ]
 }

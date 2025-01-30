@@ -11,18 +11,12 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-tokens = {
-    "USDC":"0x5A887dfC5fC4eAd13E6c9691b71cffA41552B51D",
-    "USDT":"0x10BdEaBc356120FaD66d000C777e1877DBA807A2",
-    "WBTC":"0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
-}
-
-
 
 @app.route("/chat", methods=['POST'])
 async def sendChat():
     # agent = AgentHub("Amara")
     agent = GroqAgent()
+    helper = Helper()
     try:
         # Ensure request method is POST
         if request.method != 'POST':
@@ -72,13 +66,13 @@ async def sendChat():
         data_list = []
         
         
-        parsed_data = Helper.getJsonData(response_message)
-        data_list = Helper.prepResponseForClient(parsed_data=parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
+        parsed_data = helper.getJsonData(response_message)
+        data_list = helper.prepResponseForClient(parsed_data=parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
         if parsed_data["action"]:
-            result  = Helper.handleCryptoInteraction(parsed_data["action"])
+            result  = helper.handleCryptoInteraction(parsed_data["action"])
             blockchain_response = agent.predict(f"{result}")
-            block_parsed_data = Helper.getJsonData(blockchain_response)
-            data_list = Helper.prepResponseForClient(parsed_data=block_parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
+            block_parsed_data = helper.getJsonData(blockchain_response)
+            data_list = helper.prepResponseForClient(parsed_data=block_parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
             print(result)
         
        
@@ -92,12 +86,8 @@ async def sendChat():
         print(e, "ERROR")
         error_audio_response_path = "app/audio/error_response/ai_voice.wav"
         error_json_lipSync_path = "app/audio/error_response/ai_lipsync.json"
-        
-        # agent.generateVoice("Sorry Something Is Wrong on my end chill a bit, we will chat in a jiffy", save_out_path)
-        # convert_mp3_to_wav(save_out_path, save_out_path_wav)
-        # generate_lip_sync(os.path.join(os.getcwd(), save_out_path_wav), os.path.join(os.getcwd(),lip_sync_path), "json")
-        lip_sync_json_data = Helper.load_json_file(error_json_lipSync_path)
-        base64_audio = Helper.audio_to_base64(error_audio_response_path)
+        lip_sync_json_data = helper.load_json_file(error_json_lipSync_path)
+        base64_audio = helper.audio_to_base64(error_audio_response_path)
         data_list.append({
                 "message": "Sorry Something Is Wrong on my end chill a bit, and send again",
                 "animation": "Idle",
