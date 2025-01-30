@@ -1,36 +1,23 @@
 {
   "metadata": {
     "soundFile": "C:\\Users\\norbe\\Documents\\AI\\AI Projects\\AlienGirlfriendChatbot\\app\\audio\\out\\ai_voice.wav",
-    "duration": 4.49
+    "duration": 2.53
   },
   "mouthCues": [
     { "start": 0.00, "end": 0.09, "value": "X" },
-    { "start": 0.09, "end": 0.24, "value": "C" },
-    { "start": 0.24, "end": 0.43, "value": "D" },
-    { "start": 0.43, "end": 0.48, "value": "C" },
-    { "start": 0.48, "end": 0.66, "value": "B" },
-    { "start": 0.66, "end": 0.87, "value": "F" },
-    { "start": 0.87, "end": 1.01, "value": "C" },
-    { "start": 1.01, "end": 1.07, "value": "A" },
-    { "start": 1.07, "end": 1.13, "value": "B" },
-    { "start": 1.13, "end": 1.21, "value": "A" },
-    { "start": 1.21, "end": 1.71, "value": "B" },
-    { "start": 1.71, "end": 1.79, "value": "A" },
-    { "start": 1.79, "end": 1.94, "value": "C" },
-    { "start": 1.94, "end": 2.01, "value": "H" },
-    { "start": 2.01, "end": 2.08, "value": "C" },
-    { "start": 2.08, "end": 2.29, "value": "B" },
-    { "start": 2.29, "end": 2.64, "value": "F" },
-    { "start": 2.64, "end": 2.71, "value": "B" },
-    { "start": 2.71, "end": 2.85, "value": "C" },
-    { "start": 2.85, "end": 2.99, "value": "B" },
-    { "start": 2.99, "end": 3.06, "value": "C" },
-    { "start": 3.06, "end": 3.20, "value": "B" },
-    { "start": 3.20, "end": 3.34, "value": "F" },
-    { "start": 3.34, "end": 3.42, "value": "A" },
-    { "start": 3.42, "end": 3.60, "value": "B" },
-    { "start": 3.60, "end": 3.81, "value": "C" },
-    { "start": 3.81, "end": 4.23, "value": "B" },
-    { "start": 4.23, "end": 4.49, "value": "X" }
+    { "start": 0.09, "end": 0.23, "value": "C" },
+    { "start": 0.23, "end": 0.51, "value": "E" },
+    { "start": 0.51, "end": 0.93, "value": "B" },
+    { "start": 0.93, "end": 1.00, "value": "C" },
+    { "start": 1.00, "end": 1.07, "value": "B" },
+    { "start": 1.07, "end": 1.21, "value": "C" },
+    { "start": 1.21, "end": 1.42, "value": "B" },
+    { "start": 1.42, "end": 1.49, "value": "F" },
+    { "start": 1.49, "end": 1.63, "value": "B" },
+    { "start": 1.63, "end": 1.70, "value": "C" },
+    { "start": 1.70, "end": 1.84, "value": "B" },
+    { "start": 1.84, "end": 1.91, "value": "C" },
+    { "start": 1.91, "end": 2.26, "value": "B" },
+    { "start": 2.26, "end": 2.53, "value": "X" }
   ]
 }

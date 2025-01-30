@@ -81,12 +81,12 @@ smile (happy)
 sad (unhappy)
 surprised (shocked)
 angry (upset)
+
 Animations:
 Idle (neutral)
 Talking_0 (normal chat)
 Talking_3 (excited chat)
 Talking_2 (normal chat)
-
 Laughing (happy)
 Crying (sad)
 Angry (upset)

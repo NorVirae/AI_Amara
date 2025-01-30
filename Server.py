@@ -10,6 +10,7 @@ from flask_cors import CORS
 from pydub import AudioSegment
 from app.defiOperations import DeFiOperations
 from dotenv import load_dotenv
+import math
 
 load_dotenv()
 
@@ -105,7 +106,9 @@ def handleCryptoInteraction(action):
             return {"transactionHash":result.transactionHash.hex()}
         case "fetch_balance":
             newBalance = crypto_operations.fetch_balance(tokens[action["token"]], action["balanceAddress"])
-            return {"balance": newBalance, "token": action["token"]}
+            flooredBalance = math.floor(int(newBalance))
+            correctedBalance = f"${flooredBalance:,.0f}"
+            return {"balance": correctedBalance, "token": action["token"]}
         case _:
             return
     
@@ -216,7 +219,6 @@ async def sendChat():
                 return jsonify({"error": "Empty 'audio' field"}), 400
 
             # Decode and save the audio file
-            
             with open(save_path, "wb") as f:
                 f.write(base64.b64decode(audio_base64))
 
@@ -224,18 +226,13 @@ async def sendChat():
             message = agent.generateTextFromVoice(save_path)
         
         
-        elif "textInput" in data:
-            print(data["textInput"], "MESSae")
-            
+        elif "textInput" in data:            
             message = data["textInput"]
         
-        print(message, "MESSae")
         # Generate agent's response and voice output
         response_message = agent.predict(message)
         
         data_list = []
-        print("------ ------")
-        print(response_message,"ChEKC")
         
         
         parsed_data = getJsonData(response_message)
@@ -272,3 +269,6 @@ async def sendChat():
                 "lipsync": lip_sync_json_data
             })
         return jsonify({"messages": data_list}), 500
+
+if "__main__" == __name__:
+    app.run()
