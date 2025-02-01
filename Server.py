@@ -60,13 +60,15 @@ async def sendChat():
         elif "textInput" in data:            
             message = data["textInput"]
         
-        # Generate agent's response and voice output
+        # Generate agent's response
         response_message = agent.predict(message)
         
         data_list = []
         
-        
+        # get json data
         parsed_data = helper.getJsonData(response_message)
+        
+        # format response
         data_list = helper.prepResponseForClient(parsed_data=parsed_data,agent=agent, save_out_path=save_out_path, save_out_path_wav=save_out_path_wav, lip_sync_path=lip_sync_path, data_list=data_list)
         if parsed_data["action"]:
             result  = helper.handleCryptoInteraction(parsed_data["action"])
