@@ -14,6 +14,13 @@ class Helper:
         "WBTC":"0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
     }
 
+    listOfFriendsWallets = {
+        "Dave":"0x7D5F3FC77ffB4d33551343b7C0BDC0A41AAdB2A8",
+        "Ugo":"0x623787c0582026d6b13236268630Dd2c7a961BD4",
+        "Ada":"0xd24977e5CC8BbDE8F408dF1Ee05DDc2E9A893EE7",
+        "me": "0xB4D0402E12AA8CF44Fea9E46d82e979b36a84427"
+    }
+
     def __init__(self):
         """_summary_
         """
@@ -111,14 +118,14 @@ class Helper:
         
         match action["type"]:
             case "send":
-                result = crypto_operations.transfer_tokens(self.tokens[action["token"]], action['recipientAddress'], action['amount'])
+                result = crypto_operations.transfer_tokens(self.tokens[action["token"]], self.listOfFriendsWallets[action['recipient']], action['amount'])
                 return {"transactionHash":result.transactionHash.hex()}
             case "swap":
-                result = crypto_operations.swap_tokens_uniswap_v3(self.tokens[action["tokenIn"]],self.tokens[action["tokenOut"]], action['amount'], 0, action['recipientAddress'])
+                result = crypto_operations.swap_tokens_uniswap_v3(self.tokens[action["tokenIn"]], self.tokens[action["tokenOut"]], action['amount'], 0, self.listOfFriendsWallets[action['recipient']])
                 print(result.transactionHash.hex(), "HULA")
                 return {"transactionHash":result.transactionHash.hex()}
             case "fetch_balance":
-                newBalance = crypto_operations.fetch_balance(self.tokens[action["token"]], action["balanceAddress"])
+                newBalance = crypto_operations.fetch_balance(self.tokens[action["token"]], self.listOfFriendsWallets[action['balancee']])
                 flooredBalance = math.floor(int(newBalance))
                 correctedBalance = f"${flooredBalance:,.0f}"
                 return {"balance": correctedBalance, "token": action["token"]}
