@@ -22,12 +22,12 @@
                     "action": {
                         "type": "send",
                         "token": "USDC",
-                        "recipient": "Ada...",
+                        "recipient": "Ada",
                         "amount": 50
                     },
                     "interaction": {
                         "facial": "smile",
-                        "animation": "Talking_0"
+                        "animation": "Gesture3"
                     }
                 }
             },
@@ -114,6 +114,17 @@
                 }
             }
         },
+
+        "handling_null_input_from_human": {
+            "response": {
+                "response": "it seems like you didn't provide any input",
+                "action": null,
+                "interaction": {
+                    "facial": "smile",
+                    "animation": "Talking_0"
+                }
+            }
+        },
         "transaction_confirmation": {
             "format": {
                 "response": "Hey <name>, the transaction was successful! Here is your transaction hash.",
@@ -121,7 +132,7 @@
                 "transactionHash": "<0xtransactionhash>",
                 "interaction": {
                     "facial": "smile",
-                    "animation": "Talking_3"
+                    "animation": "Talking_2"
                 }
             }
         },
@@ -132,7 +143,7 @@
             "validRecipients": ["Ada", "Ugo", "Dave", "me"],
             "response_tone": "Intelligent, friendly",
             "transactionHash": "Do not return the transactionHash in the 'response' field where text response is returned",
-            "mandatory_json_format": "Always return a valid JSON response without additional text."
+            "mandatory_json_format": "All responses must be in the specified json format, no text allowed outside the json"
         }
     }
 }

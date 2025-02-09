@@ -1,1 +1,11 @@
-"C:/Users/norbe/Documents/AI/AI Projects/AlienGirlfriendChatbot/.venv/python.exe" -m  flask --app "c:/Users/norbe/Documents/AI/AI Projects/AlienGirlfriendChatbot/Server.py" run
+### install Packages
+```pip install -r requirements.txt```
+
+### set environmental Variables
+.env.example
+
+### install rhubarb lipsync
+https://github.com/DanielSWolf/rhubarb-lip-sync
+
+### start server
+python.exe server.py

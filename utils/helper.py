@@ -15,9 +15,9 @@ class Helper:
     }
 
     listOfFriendsWallets = {
-        "Dave":"0x7D5F3FC77ffB4d33551343b7C0BDC0A41AAdB2A8",
-        "Ugo":"0x623787c0582026d6b13236268630Dd2c7a961BD4",
-        "Ada":"0xd24977e5CC8BbDE8F408dF1Ee05DDc2E9A893EE7",
+        "dave":"0x7D5F3FC77ffB4d33551343b7C0BDC0A41AAdB2A8",
+        "ugo":"0x201Bb8Fd529A0a74767Bb2E8d825e7B9990e265a",
+        "ada":"0xf574D143F362bD961038e1056efE03B9786A4f2C",
         "me": "0xB4D0402E12AA8CF44Fea9E46d82e979b36a84427"
     }
 
@@ -110,22 +110,20 @@ class Helper:
 
     def handleCryptoInteraction(self, action):
         print(action, "Action hasbeen Carried Out")
-        USDC = "0x5A887dfC5fC4eAd13E6c9691b71cffA41552B51D"
-        USDT= "0x10BdEaBc356120FaD66d000C777e1877DBA807A2"
-        WBTC = "0xc0e983e374AAF8068A14eD3B5D3f46128c9B7410"
+
         walletOwner = "0xB4D0402E12AA8CF44Fea9E46d82e979b36a84427"
         crypto_operations = DeFiOperations(os.environ["ASSETCHAIN_RPC"], walletOwner, os.environ["PRIVATE_KEY"])
         
         match action["type"]:
             case "send":
-                result = crypto_operations.transfer_tokens(self.tokens[action["token"]], self.listOfFriendsWallets[action['recipient']], action['amount'])
+                result = crypto_operations.transfer_tokens(self.tokens[action["token"]], self.listOfFriendsWallets[action['recipient'].lower()], action['amount'])
                 return {"transactionHash":result.transactionHash.hex()}
             case "swap":
-                result = crypto_operations.swap_tokens_uniswap_v3(self.tokens[action["tokenIn"]], self.tokens[action["tokenOut"]], action['amount'], 0, self.listOfFriendsWallets[action['recipient']])
+                result = crypto_operations.swap_tokens_uniswap_v3(self.tokens[action["tokenIn"]], self.tokens[action["tokenOut"]], action['amount'], 0, self.listOfFriendsWallets[action['recipient'].lower()])
                 print(result.transactionHash.hex(), "HULA")
                 return {"transactionHash":result.transactionHash.hex()}
             case "fetch_balance":
-                newBalance = crypto_operations.fetch_balance(self.tokens[action["token"]], self.listOfFriendsWallets[action['balancee']])
+                newBalance = crypto_operations.fetch_balance(self.tokens[action["token"]], self.listOfFriendsWallets[action['balancee'].lower()])
                 flooredBalance = math.floor(int(newBalance))
                 correctedBalance = f"${flooredBalance:,.0f}"
                 return {"balance": correctedBalance, "token": action["token"]}
@@ -173,7 +171,6 @@ class Helper:
                     "audio": base64_audio,
                     "lipsync": lip_sync_json_data,
                     "action": parsed_data['action'],
-                    # "transactionHash": parsed_data["transactionHash"]
                 })
             return data_list
         except (json.JSONDecodeError, ValueError) as e:
@@ -182,9 +179,7 @@ class Helper:
             error_audio_response_path = "app/audio/error_response/ai_voice.wav"
             error_json_lipSync_path = "app/audio/error_response/ai_lipsync.json"
             
-            # agent.generateVoice("Sorry Something Is Wrong on my end chill a bit, we will chat in a jiffy", save_out_path)
-            # convert_mp3_to_wav(save_out_path, save_out_path_wav)
-            # generate_lip_sync(os.path.join(os.getcwd(), save_out_path_wav), os.path.join(os.getcwd(),lip_sync_path), "json")
+           
             lip_sync_json_data = self.load_json_file(error_json_lipSync_path)
             base64_audio = self.audio_to_base64(error_audio_response_path)
             data_list.append({

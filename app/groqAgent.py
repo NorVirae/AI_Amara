@@ -50,7 +50,6 @@ class GroqAgent:
     def predict(self, text_input):
     # If the user has asked a question,
         if text_input:
-            # Construct a chat prompt template using various components
             prompt = ChatPromptTemplate.from_messages(
                 [
                     SystemMessage(
